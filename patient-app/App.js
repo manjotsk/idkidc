@@ -58,6 +58,8 @@ class App extends React.Component {
   async componentDidMount() {
     await Font.loadAsync({
       'ProximaNova-Regular': require('./assets/fonts/ProximaNova-Regular.otf'),
+      'ProximaNova-Bold': require('./assets/fonts/ProximaNova-Bold.otf'),
+      'ProximaNova-Light': require('./assets/fonts/ProximaNova-Light.otf'),
     });
     this.setState({
       fontLoaded: true,
