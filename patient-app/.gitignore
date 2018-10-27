@@ -328,5 +328,9 @@ typings/
 # dotenv environment variables file
 .env
 
+settings.json
+packager-info.json
+packager-info.json.4061081422
+
 
 # End of https://www.gitignore.io/api/node
