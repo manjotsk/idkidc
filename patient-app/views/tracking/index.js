@@ -3,30 +3,31 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import { TouchableOpacity, View, Text } from 'react-native';
 
 import Header from '../../components/header';
-
 import ambulanceIcon from '../../assets/img/ambulance.png';
+
+var center = {};
 
 const sampleCoordinates = [
   {
     latlng: {
-      latitude: 24.78825,
-      longitude: -12.4324,
+      latitude: 24,
+      longitude: -122,
     },
     title: 'Ambulance 1',
     description: 'I am available',
   },
   {
     latlng: {
-      latitude: -37.78825,
-      longitude: -22.4324,
+      latitude: 28,
+      longitude: -80,
     },
     title: 'Ambulance 2',
     description: 'I am available',
   },
   {
     latlng: {
-      latitude: 37.78825,
-      longitude: -12.4324,
+      latitude: 30,
+      longitude: -118,
     },
     title: 'Ambulance 1',
     description: 'I am available',
@@ -34,29 +35,51 @@ const sampleCoordinates = [
 ];
 
 export default class App extends React.Component {
+  state={
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0,
+    longitudeDelta: 0,
+  }
+  async componentDidMount(){
+    let latitude = 0;
+    let longitude = 0;
+    let latDeltas = [];
+    let lonDeltas = [];
+    for (let i = 0; i < sampleCoordinates.length; i++){
+      latitude = latitude + sampleCoordinates[i].latlng.latitude;
+      longitude = longitude + sampleCoordinates[i].latlng.longitude;
+    }
+    latitude = latitude / sampleCoordinates.length;
+    longitude = longitude / sampleCoordinates.length;
+    for (var i=0; i<sampleCoordinates.length; i++){
+      latDeltas.push(Math.abs(sampleCoordinates[i].latlng.latitude-latitude))
+      lonDeltas.push(Math.abs(sampleCoordinates[i].latlng.longitude-longitude))
+    }
+    this.setState({
+      latitude,
+      longitude,
+      latitudeDelta:Math.max(...latDeltas),
+      longitudeDelta:Math.max(...lonDeltas)
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
+        {console.log(this.state)
+        }
         <Header text={'Ambulances Nearby'} />
-        <MapView
+        {this.state.latitudeDelta>0?<MapView
           style={{ flex: 1 }}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
+            latitudeDelta: this.state.latitudeDelta+20,
+            longitudeDelta: this.state.longitudeDelta+20,
           }}
         >
-          {[
-            {
-              latlng: {
-                latitude: 37.78825,
-                longitude: -122.4324,
-              },
-              title: 'Ambulance 1',
-              description: 'I am available',
-            },
-          ].map((marker, key) => (
+          {sampleCoordinates.map((marker, key) => (
             <Marker
               coordinate={marker.latlng}
               title={marker.title}
@@ -77,7 +100,7 @@ export default class App extends React.Component {
               </Callout>
             </Marker>
           ))}
-        </MapView>
+        </MapView>:<MapView/>}
       </React.Fragment>
     );
   }
