@@ -36,7 +36,7 @@ const RootStack = createStackNavigator(
     TrackingScreen,
   },
   {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'TrackingScreen',
     transitionConfig,
     lazy: true,
     headerMode: 'none',
