@@ -2,18 +2,9 @@ import {
     createStore,
     applyMiddleware
 } from 'redux'
-import thunk from 'redux-thunk'
-import Immutable from 'immutable'
+import ReduxThunk from 'redux-thunk'
 import rootReducer  from '../reducers/HighOrderReducer'
 
-const middleware = [thunk]
-
-const initialState = Immutable.fromJS({})
-
-const store = createStore(
-    rootReducer,
-    initialState,
-    applyMiddleware(...middleware)
-)
+const store = createStore(rootReducer, {}, applyMiddleware(ReduxThunk))
 
 export default store

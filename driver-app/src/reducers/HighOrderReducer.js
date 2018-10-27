@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux-immutable'
-import { errorPopup } from './errorPopupReducer'
+import { combineReducers } from 'redux'
+import NotificationReducer from './NotificationReducer'
 
 
 const rootReducer = combineReducers({
-    errorPopup
+    notify: NotificationReducer
 })
 
 export default rootReducer

@@ -4,8 +4,9 @@ import {Metrics} from '../themes'
 import {getStatusBarHeight} from 'react-native-status-bar-height'
 
 import registerForPushNotificationsAsync from './Notifications'
+import { connect } from 'react-redux';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
 
     state= {
         online: true
@@ -23,6 +24,9 @@ export default class HomeScreen extends React.Component {
                 style={this.state.online?styles.onLineButton:styles.offlineButton}
                 >
                     <Text style={styles.text}>{this.state.online?'ONLINE':'OFFLINE'}</Text>
+                    {
+                        this.props.notification?<Text>H</Text>:null
+                    }
                 </TouchableOpacity>
             </View>
         )
@@ -57,3 +61,11 @@ const styles = StyleSheet.create({
         color: 'white'
     }
 })
+
+const mapStateToProps = state => {
+    return {
+        notification: state.notify.notification
+    }
+}
+
+export default connect(mapStateToProps)(HomeScreen)
