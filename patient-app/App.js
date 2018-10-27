@@ -1,7 +1,9 @@
+import React from 'react';
 import { Animated, Easing } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import { Font } from 'expo';
 
-import HomeScreen from './views/home';
+import HomeScreen from './views/home/';
 import TrackingScreen from './views/tracking';
 
 const transitionConfig = () => ({
@@ -44,4 +46,31 @@ const RootStack = createStackNavigator(
   }
 );
 
-export default RootStack;
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      fontLoaded: false,
+    };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'ProximaNova-Regular': require('./assets/fonts/ProximaNova-Regular.otf'),
+    });
+    this.setState({
+      fontLoaded: true,
+    });
+  }
+
+  render() {
+    if (this.state.fontLoaded) {
+      return <RootStack />;
+    }
+
+    return null;
+  }
+}
+
+export default App;
