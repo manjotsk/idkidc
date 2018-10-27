@@ -1,5 +1,34 @@
 import React from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { TouchableOpacity, View, Text } from 'react-native';
+import ambulanceIcon from '../../assets/img/ambulance.png';
+
+const sampleCoordinates= [
+  {
+    latlng: {
+      latitude: 24.78825,
+      longitude: -12.4324,
+    },
+    title: 'Ambulance 1',
+    description: 'I am available',
+  },
+  {
+    latlng: {
+      latitude: -37.78825,
+      longitude: -22.4324,
+    },
+    title: 'Ambulance 2',
+    description: 'I am available',
+  },
+  {
+    latlng: {
+      latitude: 37.78825,
+      longitude: -12.4324,
+    },
+    title: 'Ambulance 1',
+    description: 'I am available',
+  },
+];
 
 export default class App extends React.Component {
   render() {
@@ -28,7 +57,17 @@ export default class App extends React.Component {
             title={marker.title}
             description={marker.description}
             key={key}
-          />
+            image={ambulanceIcon}
+          >
+            <Callout tooltip>
+              <TouchableOpacity onPress={() => alert(`Clicked`)}>
+                <View style={{backgroundColor:'#FFFFFF'}}>
+                  <Text>{marker.title}{"\n"}{marker.description}</Text>
+                </View>
+              </TouchableOpacity>
+            </Callout>
+
+          </Marker>
         ))}
       </MapView>
     );
