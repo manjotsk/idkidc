@@ -1,0 +1,19 @@
+{
+    "parser": "babel-eslint",
+    "extends": ["plugin:react/recommended", "airbnb-base", "plugin:prettier/recommended"],
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "comma-dangle": 0,
+      "max-len": 1,
+      "arrow-parens": ["error", "as-needed"],
+      "space-before-function-paren": 0,
+      "no-underscore-dangle": 0,
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "camelcase": "warn",
+      "global-require": "warn",
+      "import/prefer-default-export": "warn",
+      "linebreak-style":"off"
+    }
+  }
