@@ -1,5 +1,6 @@
 import { Permissions, Notifications } from 'expo';
-
+import store from '../store/store';
+import {saveToken} from '../actions/actions'
 // const PUSH_ENDPOINT = 'https://your-server.com/users/push-token';
 
 async function registerForPushNotificationsAsync() {
@@ -24,6 +25,7 @@ async function registerForPushNotificationsAsync() {
 
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync();
+  store.dispatch(saveToken(token))
   console.log('tt\n\n\n\n', token)
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
