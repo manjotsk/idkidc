@@ -9,6 +9,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "expo": "^30.0.1",
     "lottie-react-native": "^2.5.9",
     "prop-types": "^15.6.2",
