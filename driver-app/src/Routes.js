@@ -1,13 +1,17 @@
 import React from 'react'
-import {HomeScreen} from './screens'
+import {HomeScreen, Maps, RegisterScreen} from './screens'
 import { Router, Scene, Stack } from "react-native-router-flux"
 
-export default class Routes extends React.Component {
+class Routes extends React.Component {
 
     render = () =>
         <Router>
             <Stack key="root" hideNavBar>
-              <Scene key="homeScreen" component={HomeScreen} initial/>
+              <Scene key="homeScreen" component={HomeScreen} />
+              <Scene key="maps" component={Maps}/>
+              <Scene key="regScreen" component={RegisterScreen} initial/>
             </Stack>
         </Router>
   }
+
+export default Routes
