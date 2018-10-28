@@ -79,7 +79,6 @@ class Home extends React.Component {
       <React.Fragment>
         <Header text={'Patient App'} />
         <View style={styles.container}>
-          <Text>{JSON.stringify(this.state.location)}</Text>
           <View style={{ flex: 1 }}>
             <View style={styles.userDetails}>
               <Text style={styles.userDetailsText}>Logged in as Lavish Thakkar</Text>

@@ -16,13 +16,16 @@ export default class App extends React.Component {
     longitudeDelta: 0,
     selectedLatitude: 0,
     drivers: [],
+    bestAmbulanceLat:0,
+    bestAmbulanceLon:0,
+    showPath:false
   };
 
   async componentDidMount() {
     let userLocation = this.props.navigation.getParam('userLocation');
     let drivers = this.props.navigation.getParam('drivers');
 
-    drivers = drivers.map(function(driver) {
+    drivers = drivers.map(function (driver) {
       return {
         latlng: {
           latitude: driver.location.coordinates[0],
@@ -60,6 +63,8 @@ export default class App extends React.Component {
       latDeltas.push(Math.abs(drivers[i].latlng.latitude - latitude));
       lonDeltas.push(Math.abs(drivers[i].latlng.longitude - longitude));
     }
+    console.log({ latitude, longitude });
+
     this.setState({
       latitude,
       longitude,
@@ -67,12 +72,29 @@ export default class App extends React.Component {
       longitudeDelta: Math.max(...lonDeltas),
       drivers,
     });
+    var max=10000;
+    var key=0;
+    
+    for(let i=0; i < drivers.length; i++){
+      var dist = Math.sqrt( Math.pow((this.props.navigation.getParam('userLocation').latitude-drivers[i].latlng.latitude), 2) + Math.pow((this.props.navigation.getParam('userLocation').longitude-drivers[i].latlng.longitude), 2) );
+      if (dist<max){
+        key=i;
+      }
+    }
+    this.setState({
+      bestAmbulanceLat:drivers[key].latlng.latitude,
+      bestAmbulanceLon:drivers[key].latlng.longitude,
+    },()=>{
+      this.setState({
+        showPath:true
+      })
+    })
   }
   render() {
     let userLocation = this.props.navigation.getParam('userLocation');
     let drivers = this.props.navigation.getParam('drivers');
 
-    drivers = drivers.map(function(driver) {
+    drivers = drivers.map(function (driver) {
       return {
         latlng: {
           latitude: driver.location.coordinates[1],
@@ -95,42 +117,63 @@ export default class App extends React.Component {
       <React.Fragment>
         {console.log(this.state)}
         <Header text={'Ambulances Nearby'} />
-        <MapView
-          style={{ flex: 1 }}
-          initialRegion={{
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: this.state.latitudeDelta + 20,
-            longitudeDelta: this.state.longitudeDelta + 20,
-          }}
-        >
-          {drivers.map((marker, key) => (
+
+        {this.state.latitude != 0 ?
+          <MapView
+            style={{ flex: 1 }}
+            initialRegion={{
+              latitude: this.state.longitude,
+              longitude: this.state.latitude,
+              latitudeDelta: this.state.latitudeDelta + 0.2,
+              longitudeDelta: this.state.longitudeDelta + 0.2,
+            }}
+          >
             <Marker
-              coordinate={marker.latlng}
-              title={marker.title}
-              description={marker.description}
-              key={key}
-              image={ambulanceIcon}
-            >
-              <Callout tooltip>
-                <TouchableOpacity onPress={() => alert(`Clicked`)}>
-                  <View style={{ backgroundColor: '#FFFFFF' }}>
-                    <Text>
-                      {marker.title}
-                      {'\n'}
-                      {marker.description}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </Callout>
-            </Marker>
-          ))}
-          <MapViewDirections
-            origin={origin}
-            destination={destination}
+              coordinate={{
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude
+              }}
+            />
+            {drivers.map((marker, key) => (
+              <Marker
+                coordinate={marker.latlng}
+                title={marker.title}
+                description={marker.description}
+                key={key}
+                image={ambulanceIcon}
+              >
+                <Callout tooltip>
+                  <TouchableOpacity onPress={() => alert(`Clicked`)}>
+                    <View style={{ backgroundColor: '#FFFFFF' }}>
+                      <Text>
+                        {marker.title}
+                        {'\n'}
+                        {marker.description}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </Callout>
+              </Marker>
+            ))}
+            {console.log('\n\n\n\n\nstate',this.state)
+            }
+            {console.log(userLocation.latitude,userLocation.longitude)
+            }
+            <MapViewDirections
+            origin={{
+              latitude:30.764745,
+              longitude:76.793639,
+            }}
+            destination={{
+              latitude: 30.764865,
+              longitude: 76.787042,
+            }}
+            // origin={origin}
+            // destination={destination}
             apikey={GOOGLE_MAPS_APIKEY}
           />
-        </MapView>
+          </MapView> : null
+        }
       </React.Fragment>
     );
   }
