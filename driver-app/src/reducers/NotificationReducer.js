@@ -4,7 +4,7 @@ import {
 } from '../actions/types'
 
 const INITIAL_STATE = {
-    notification: '',
+    notification: null,
     token: null
 }
 

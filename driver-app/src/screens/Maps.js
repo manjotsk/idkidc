@@ -37,7 +37,7 @@ export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Header text={'Ambulances Nearby'} />
+        <Header text={'Patient Nearby'} />
         <MapView
           style={{ flex: 1 }}
           initialRegion={{

@@ -7,9 +7,9 @@ class Routes extends React.Component {
     render = () =>
         <Router>
             <Stack key="root" hideNavBar>
-              <Scene key="homeScreen" component={HomeScreen} />
+              <Scene key="homeScreen" component={HomeScreen} initial/>
               <Scene key="maps" component={Maps}/>
-              <Scene key="regScreen" component={RegisterScreen} initial/>
+              <Scene key="regScreen" component={RegisterScreen} />
             </Stack>
         </Router>
   }

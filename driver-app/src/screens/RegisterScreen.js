@@ -1,8 +1,9 @@
 import React from 'react'
-import {View, StyleSheet, TextInput, TouchableOpacity, Text, ActivityIndicator} from 'react-native'
+import {View, StyleSheet, TextInput, TouchableOpacity, Text, ActivityIndicator, ImageBackground} from 'react-native'
 
 import axios from 'axios'
 import { connect } from 'react-redux';
+import {Actions, ActionConst} from  'react-native-router-flux'
 import {Notifications} from 'expo'
 
 class RegisterScreen extends React.Component {
@@ -21,11 +22,11 @@ class RegisterScreen extends React.Component {
         this.setState({loading: true})
         console.log(name, email, phone, vehicle, typeof(pushToken))
         axios.post('https://kinkyu.herokuapp.com/kinkyu/api/v1/driver/register', {
-            name,
-            email,
-            phone,
-            vehicle,
-            pushToken
+            name: name.toString(),
+            email: email.toString(),
+            phone: phone.toString(),
+            vehicle: vehicle.toString(),
+            pushToken: pushToken.toString()
           },{
               headers: {
                 'Content-Type': 'application/json'
@@ -43,7 +44,7 @@ class RegisterScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ImageBackground style={styles.container} source={require('../assets/img/bg.jpg')}>
                 <View style={styles.subView}>
                 <TextInput
                     style={styles.input}
@@ -70,17 +71,20 @@ class RegisterScreen extends React.Component {
                     placeholder='Vehical No.'
                     />
                     <TouchableOpacity 
-                    onPress={()=>{
-                        const {name, email, phone, vehicle} = this.state
-                        const {token} = this.props
-                        this.register(name, email, phone, vehicle, token)
-                    }}
+                    onPress={
+                    //     ()=>{
+                    //     const {name, email, phone, vehicle} = this.state
+                    //     const {token} = this.props
+                    //     this.register(name, email, phone, vehicle, token)
+                    // }
+                    ()=>Actions.homeScreen({type: ActionConst.RESET})
+                }
                     style={styles.button}
                     >
                        {this.state.loading?<ActivityIndicator color="white"/>:<Text style={styles.text}>Submit</Text>}
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ImageBackground>
         )
     }
 } 
@@ -90,8 +94,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        width: '100%',
-        backgroundColor: 'white'
+        width: '100%'
     },
     subView: {
         alignItems: 'center',
@@ -104,7 +107,9 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         marginBottom: 8,
-        borderRadius: 4
+        borderRadius: 4,
+        backgroundColor: 'white',
+        opacity: 0.5
     },
     button: {
         padding: 40,
