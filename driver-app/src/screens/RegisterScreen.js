@@ -10,26 +10,26 @@ class RegisterScreen extends React.Component {
     state= {
         name: '',
         email: '',
-        phone: 0,
+        phone: '',
         vehicle: '',
         pushToken: '',
         loading: false
 
     }
 
-    async componentDidMount() {
-        let token = await Notifications.getExpoPushTokenAsync();
-        this.setState({pushToken: token})
-    }
-
     register=(name, email, phone, vehicle, pushToken)=> {
         this.setState({loading: true})
+        console.log(name, email, phone, vehicle, typeof(pushToken))
         axios.post('https://kinkyu.herokuapp.com/kinkyu/api/v1/driver/register', {
             name,
             email,
             phone,
             vehicle,
             pushToken
+          },{
+              headers: {
+                'Content-Type': 'application/json'
+              }
           })
           .then( (response)=> {
             this.setState({loading: false})
@@ -71,8 +71,9 @@ class RegisterScreen extends React.Component {
                     />
                     <TouchableOpacity 
                     onPress={()=>{
-                        const {name, email, phone, vehicle, pushToken} = this.state
-                        this.register(name, email, phone, vehicle, pushToken)
+                        const {name, email, phone, vehicle} = this.state
+                        const {token} = this.props
+                        this.register(name, email, phone, vehicle, token)
                     }}
                     style={styles.button}
                     >
