@@ -10,36 +10,40 @@ var center = {};
 const sampleCoordinates = [
   {
     latlng: {
-      latitude: 24,
-      longitude: -122,
+      latitude: 30.769014,
+      longitude: 76.784795,
     },
     title: 'Ambulance 1',
     description: 'I am available',
   },
   {
     latlng: {
-      latitude: 28,
-      longitude: -80,
+      latitude: 30.469014,
+      longitude: 76.884795,
     },
     title: 'Ambulance 2',
     description: 'I am available',
   },
   {
     latlng: {
-      latitude: 30,
-      longitude: -118,
+      latitude: 31,
+      longitude: 76.6,
     },
     title: 'Ambulance 1',
     description: 'I am available',
   },
 ];
-
+let sampleUserLocation={
+  latitude: 30.709014,
+  longitude: 76.702795,
+}
 export default class App extends React.Component {
   state={
     latitude: 0,
     longitude: 0,
     latitudeDelta: 0,
     longitudeDelta: 0,
+    selectedLatitude:0,
   }
   async componentDidMount(){
     let latitude = 0;
@@ -52,7 +56,7 @@ export default class App extends React.Component {
     }
     latitude = latitude / sampleCoordinates.length;
     longitude = longitude / sampleCoordinates.length;
-    for (var i=0; i<sampleCoordinates.length; i++){
+    for (let i = 0; i < sampleCoordinates.length; i++){
       latDeltas.push(Math.abs(sampleCoordinates[i].latlng.latitude-latitude))
       lonDeltas.push(Math.abs(sampleCoordinates[i].latlng.longitude-longitude))
     }
@@ -63,7 +67,6 @@ export default class App extends React.Component {
       longitudeDelta:Math.max(...lonDeltas)
     })
   }
-
   render() {
     return (
       <React.Fragment>
